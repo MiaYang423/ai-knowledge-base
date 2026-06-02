@@ -1,0 +1,72 @@
+site_name: AI 学习知识库
+site_url: https://miayang0423.github.io/ai-knowledge-base
+site_description: 基于抖音精选视频整理的 AI 学习教案，覆盖 Agent、RAG、VibeCoding 等核心主题
+site_author: 小B & 小A
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换到深色模式
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换到浅色模式
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+  icon:
+    repo: fontawesome/brands/github
+
+repo_name: MiaYang423/ai-knowledge-base
+repo_url: https://github.com/MiaYang423/ai-knowledge-base
+
+nav:
+  - 首页: index.md
+  - Agent 与多智能体:
+    - 概述: agent-multi-agent/index.md
+  - RAG 与知识库:
+    - 概述: rag-knowledge/index.md
+  - VibeCoding:
+    - 概述: vibecoding/index.md
+  - AI 工具链:
+    - 概述: tool-chain/index.md
+  - AI 编程:
+    - 概述: ai-programming/index.md
+  - OpenClaw:
+    - 概述: openclaw/index.md
+  - AI 产品与职业:
+    - 概述: ai-pm-career/index.md
+  - AI 设计:
+    - 概述: ai-design/index.md
+
+plugins:
+  - search:
+      lang: zh
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/MiaYang423/ai-knowledge-base
