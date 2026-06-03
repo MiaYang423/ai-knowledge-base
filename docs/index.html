@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 学习知识库 · 小A精选</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-hover: #263347;
+      --border: #334155;
+      --primary: #6366f1;
+      --secondary: #22d3ee;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1a1040 50%, #0c1a2e 100%);
+      padding: 80px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(ellipse at 60% 40%, rgba(99,102,241,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 30% 70%, rgba(34,211,238,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(99,102,241,0.15);
+      border: 1px solid rgba(99,102,241,0.4);
+      color: #a5b4fc;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #6366f1, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .stat-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--border);
+      align-self: center;
+    }
+
+    /* ── MAIN CONTAINER ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── SEARCH ── */
+    .search-section {
+      padding: 40px 0 0;
+    }
+    .search-wrap {
+      position: relative;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 18px;
+      pointer-events: none;
+    }
+    #searchInput {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 15px;
+      padding: 14px 16px 14px 46px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    #searchInput::placeholder { color: var(--text-muted); }
+    #searchInput:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+    }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 48px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── CATEGORY GRID ── */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .cat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .cat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .cat-card:hover {
+      background: var(--card-hover);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99,102,241,0.12);
+    }
+    .cat-card:hover::before { transform: scaleX(1); }
+    .cat-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px var(--primary), 0 8px 24px rgba(99,102,241,0.15);
+    }
+    .cat-card.active::before { transform: scaleX(1); }
+    .cat-emoji { font-size: 28px; margin-bottom: 10px; display: block; }
+    .cat-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .cat-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .cat-count .badge {
+      background: rgba(99,102,241,0.15);
+      color: #a5b4fc;
+      border-radius: 6px;
+      padding: 1px 7px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .cat-arrow {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%) rotate(0deg);
+      color: var(--text-muted);
+      font-size: 12px;
+      transition: transform 0.3s;
+    }
+    .cat-card.active .cat-arrow { transform: translateY(-50%) rotate(90deg); color: var(--primary); }
+    .cat-coming-soon {
+      font-size: 11px;
+      color: var(--warning);
+      background: rgba(245,158,11,0.1);
+      border-radius: 5px;
+      padding: 1px 6px;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    /* ── LESSON PANEL ── */
+    .lesson-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-top: 12px;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+    .lesson-panel.open {
+      max-height: 600px;
+      opacity: 1;
+      overflow-y: auto;
+    }
+    .lesson-panel::-webkit-scrollbar { width: 6px; }
+    .lesson-panel::-webkit-scrollbar-track { background: transparent; }
+    .lesson-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .lesson-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(51,65,85,0.5);
+      text-decoration: none;
+      color: var(--text);
+      transition: background 0.15s;
+    }
+    .lesson-item:last-child { border-bottom: none; }
+    .lesson-item:hover { background: rgba(99,102,241,0.06); }
+    .lesson-num {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      background: rgba(99,102,241,0.12);
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #a5b4fc;
+    }
+    .lesson-info { flex: 1; min-width: 0; }
+    .lesson-title {
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+    .lesson-summary {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lesson-link-icon {
+      flex-shrink: 0;
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 2px;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .lesson-item:hover .lesson-link-icon { opacity: 1; }
+
+    /* ── SEARCH RESULTS ── */
+    #searchResults {
+      display: none;
+      margin-top: 24px;
+    }
+    #searchResults.visible { display: block; }
+    .search-result-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .search-result-item:hover {
+      border-color: var(--primary);
+      background: var(--card-hover);
+      transform: translateX(3px);
+    }
+    .result-cat-badge {
+      flex-shrink: 0;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .badge-ai-prog { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+    .badge-ai-pm { background: rgba(34,211,238,0.12); color: #67e8f9; }
+    .no-results {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 40px;
+      font-size: 14px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 16px 40px; }
+      .stats { gap: 24px; }
+      .stat-divider { display: none; }
+      .categories-grid { grid-template-columns: 1fr 1fr; }
+      .container { padding: 0 16px 60px; }
+    }
+    @media (max-width: 400px) {
+      .categories-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">📚 AI 学习知识库</div>
+  <h1>探索 AI 的无限可能</h1>
+  <p>精选抖音 AI 学习教案，涵盖 AI 编程、产品职业、Agent 设计等核心领域</p>
+  <div class="stats">
+    <div class="stat-item">
+      <div class="stat-num">132</div>
+      <div class="stat-label">精选教案</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">8</div>
+      <div class="stat-label">知识分类</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">2026-06-03</div>
+      <div class="stat-label">最近更新</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- SEARCH -->
+  <div class="search-section">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="搜索教案标题、关键词...">
+    </div>
+    <div id="searchResults"></div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="section-title">📂 知识分类</div>
+  <div class="categories-grid" id="categoriesGrid">
+
+    <div class="cat-card" data-cat="ai-programming" onclick="toggleCategory(this)">
+      <span class="cat-emoji">🧑‍💻</span>
+      <div class="cat-name">AI 编程</div>
+      <div class="cat-count"><span class="badge">114</span> 篇教案</div>
+      <span class="cat-arrow">›</span>
+    </div>
+
+    <div class="cat-card" data-cat="ai-pm-career" onclick="toggleCategory(this)">
+      <span class="cat-emoji">📊</span>
+      <div class="cat-name">AI 产品与职业</div>
+      <div class="cat-count"><span class="badge">18</span> 篇教案</div>
+      <span class="cat-arrow">›</span>
+    </div>
+
+    <div class="cat-card" data-cat="agent-multi-agent" onclick="showComingSoon(this)">
+      <span class="cat-emoji">🤖</span>
+      <div class="cat-name">Agent 与多智能体</div>
+      <div class="cat-count"><span class="cat-coming-soon">即将上线</span></div>
+      <span class="cat-arrow">›</span>
+    </div>
+
+    <div class="cat-card" data-cat="rag-knowledge" onclick="showComingSoon(this)">
+      <span class="cat-emoji">📚</span>
+      <div class="cat-name">RAG 与知识库</div>
+      <div class="cat-count"><span class="cat-coming-soon">即将上线</span></div>
+      <span class="cat-arrow">›</span>
+    </div>
+
+    <div class="cat-card" data-cat="vibecoding" onclick="showComingSoon(this)">
+      <span class="cat-emoji">💻</span>
+      <div class="cat-name">VibeCoding</div>
+      <div class="cat-count"><span class="cat-coming-soon">即将上线</span></div>
+      <span class="cat-arrow">›</span>
+    </div>
+
+    <div class="cat-card" data-cat="tool-chain" onclick="showComingSoon(this)">
+      <span class="cat-emoji">🔧</span>
+      <div class="cat-name">AI 工具链</div>
+      <div class="cat-count"><span class="cat-coming-soon">即将上线</span></div>
+      <span class="cat-arrow">›</span>
+    </div>
+
+    <div class="cat-card" data-cat="openclaw" onclick="showComingSoon(this)">
+      <span class="cat-emoji">🦅</span>
+      <div class="cat-name">OpenClaw</div>
+      <div class="cat-count"><span class="cat-coming-soon">即将上线</span></div>
+      <span class="cat-arrow">›</span>
+    </div>
+
+    <div class="cat-card" data-cat="ai-design" onclick="showComingSoon(this)">
+      <span class="cat-emoji">🎨</span>
+      <div class="cat-name">AI 设计</div>
+      <div class="cat-count"><span class="cat-coming-soon">即将上线</span></div>
+      <span class="cat-arrow">›</span>
+    </div>
+
+  </div>
+
+  <!-- LESSON PANELS (injected by JS) -->
+  <div id="lessonPanels"></div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>🤖 由 <strong>小A</strong> 精选整理 · 数据来源：抖音 AI 学习视频</p>
+  <p style="margin-top:6px;">更新时间：2026-06-03 · <a href="https://github.com" target="_blank">GitHub</a></p>
+</footer>
+
+<script>
+// ── 教案数据 ──
+const LESSONS = {
+  'ai-programming': [{id:'7596229808447573282',title:'9921Claude Skill实战：搭建自动化写作Agent #AI #AI工具 #claude #skills #创',summary:'建议所有人都去学Cloud Skills真的太香了之前我们写片文章从折腾选题到收集资料再到写出稿改稿教兑就算是专业的创作者至少也要两小时起步现在我将大博主都在用',url:'https://www.douyin.com/video/7596229808447573282'},
+{id:'7598449992155647282',title:'2692普通人用好这三个Claude skills就够了.... #AI #AI工具 #AI教程 #创作 #claude',summary:'其实你并不需要那么多Cloud Skills最近Cloud Skills有多火相信大家都有所感受目前Skills MP这个网站上Skills的数量已经达到了恐怖',url:'https://www.douyin.com/video/7598449992155647282'},
+{id:'7602203730854808873',title:'4923如何设计Agent长期记忆机制？这才是正确打开方式！ #人工智能 #大模型 #AI大模型 #Agent #大模型',summary:'面試官問,在構建一個長期賠萬性AI角色時,如何設計記憶機制一遍在第一百輪對話時還能精準記得第一輪的細節欸,這個問題很有意思,大家先別急著想答案先想一下,為什麼只',url:'https://www.douyin.com/video/7602203730854808873'},
+{id:'7602423338950020395',title:'7768OpenCode保姆级教程第2期，白嫖Claude模型 上期根据文档，手把手带大家安装了OpenCode，相信很',summary:'Open code的最近正是太火了给它不上已经有9万多次了我估计全球的大模型场上都在针对Open code的做测试调优Open code是目前真正能整地Clou',url:'https://www.douyin.com/video/7602423338950020395'},
+{id:'7602603747088443257',title:'839如何正确使用coding模型 #人工智能 #vibecoding #AI工具 #清华姜学长 #VibeCoding',summary:'这么多COLLE模型到底应该怎么去选2016年人人都在去玩COLLE但用对模型才是吃饭公倍模型选刷效果不好又分分钟去烧光你的钱包很多人都用AR鞋带马还停留在一个',url:'https://www.douyin.com/video/7602603747088443257'},
+{id:'7604485515164880163',title:'2.2万vibe coding 教程和最佳实践 我用了一下午，做出了一个完整的网页应用，',summary:'我用了一下午做出了一个完整的晚应用还不如上线了任何人都能访问关键是我一行代码都没写今天我把整个过程拆解给你跟着做你也行整个过程就四步第一步明确需求第二步生成圆形',url:'https://www.douyin.com/video/7604485515164880163'},
+{id:'7607472841860189492',title:'7484AI完成了30天全平台上架App，一起看看全过程 AI已经能搞定企业级App了。',summary:'我用一个月的月余时间使用AI工具完成了一款App的从开发到上架今后我会分多个视频细节的介绍实现的步骤这款App目前可以在红盟和IOS系统上运行前端使用的红盟和I',url:'https://www.douyin.com/video/7607472841860189492'},
+{id:'7609728440245602025',title:'4680挑战30天掌握AI#ai #ai工具 #ai产品 #ai学习 #ai学习教程挑战30天掌握AI#ai #ai工具',summary:'Hello 这里是迪姐今天我们想正式从3月1号开始发起个为期30天直播系列的挑战者活动名字叫做挑战30天掌握AI浩韩完整的学习到10超的线图我们要做的是一件非常',url:'https://www.douyin.com/video/7609728440245602025'},
+{id:'7611079015830506786',title:'1.8万Red/Green TDD提高代码交付质量方法论 #程序员#AI  #claude ',summary:'你让AI寫代码 写完发现一跑就崩你让AI改个小功能 结果整个项目全费了别急 全世界最懂AI编程的人之一Jango创始人 Simon Wilson给出了一个杀手机',url:'https://www.douyin.com/video/7611079015830506786'},
+{id:'7612909965455428891',title:'9354自学vibe coding做开发 ai天团帮我实现想法',summary:'你不是开发被减合口学是吧对我不是开发对净的我是完全就是快Coding在做这个项目是吗90%是外部Coding吧因为用开发Coding很久了其实自己脑子里也学了很',url:'https://www.douyin.com/video/7612909965455428891'},
+{id:'7614351761827042266',title:'12.4万如果地球有自己的花语',summary:'你会好奇世界各地区都有什么样的花朵吗于是我外部扣定了这个应用根据纸背在世界各地的生长记录比如中国的桂花还有百合地中海的五花果金展局非洲的金河欢后面包束还有沐西哥',url:'https://www.douyin.com/video/7614351761827042266'},
+{id:'7615454479031362427',title:'273【全程记录】用Claude Code+ AI Agents从零开始1小时做一个能跑起来的微信小程序 ',summary:'今天来路一个用Cloud Code的制作微信小程序这个小程序其实我好几年前就想做了因为我们会有实地调研但是有一个问题就是想去把它做成一个面板数据每一年是追踪一直',url:'https://www.douyin.com/video/7615454479031362427'},
+{id:'7616293509246520595',title:'1542大模型面试LangChain、LangFlow、LangGr aph的区别#程序员科普#先定一个小目标#ai大模',summary:'面试观问你讲讲狼青狼霍和狼狗这三个看起来名字差不多的东西到底有啥去比很多同学听到这可能性你就开始打鼓了坏了这三个我不都是混着用吗不就是调接口的吗如果这时候你支置',url:'https://www.douyin.com/video/7616293509246520595'},
+{id:'7619905124168840818',title:'1374个小时用Claude Code交付了自己的第一个微信小程序，已经正式发布，太有意思了#OpenClaw#开发微信',summary:'四小時重零開發微信小程序,我用AI突破能力編界把我自己作為用戶加產品經歷加開發家測試的角色先做好環境準備,按照上面一步步來做就行就這樣,一個不會編程的父親用Cl',url:'https://www.douyin.com/video/7619905124168840818'},
+{id:'7619957723727170859',title:'1751claudecode三大提效技巧，新手比学 #claudecode #AI#AI编程 #效率神器claudeco',summary:'我现在每天用CLOCO的超过10个小时总结出了3个提效技巧能够让它越用越懂你干活不反攻第一个先商量再放手复杂的人物先跟他说别动手给我方案他会自动调整为Plan模',url:'https://www.douyin.com/video/7619957723727170859'},
+{id:'7620239906665535993',title:'1173这下再也不担心AI的信息看不过来了🤗 #人工智能 #aiagent #ai #skills这下再也不担心AI的信',summary:'上次打了这个Skill大家去安装了吗就是Follow Builders not Influence我们来看一下你直接在你的Agent上让他去装可以让你的小龙虾或',url:'https://www.douyin.com/video/7620239906665535993'},
+{id:'7620383999898225929',title:'816面试官问：知识图谱 和 向量数据库的区别是什么？在工程落地中该如何选择和融合？#ai大模型 #大模型面试 #人工智',summary:'面試觀問 知識突普和香良書局庫到底有什麼區別在工程落地的時候 你該怎麼選又該怎麼把他們融合在一起大家聽到這個問題先別急著去背內對枯燥的定義AI大模型學習資料 可',url:'https://www.douyin.com/video/7620383999898225929'},
+{id:'7621539660975656243',title:'7997深度使用了阿里悟空，我打造了一人跨境电商团队 #阿里悟空#企业Agent#OpenClaw#龙虾#钉钉悟空深度使',summary:'我这几天做了一个非常有意思的实验由阿里清除了这个物空搭建了一个艺人快经电脑团队也就是说从商品的选品找货源做商品图包括商品商家全部交给EA让它自动来完成体验完就一',url:'https://www.douyin.com/video/7621539660975656243'},
+{id:'7621826794995453230',title:'900推荐3个做内容需要的skills 分别是深度研究+每日新闻推送+脚本写作的skills，虽然简单但能解决我：每天刷',summary:'我乘 ado30年以来现在我上森明日和我从葵最后在几iting会园的角落和掛给我的自己五名人但我在身体工作明白警 bum但我怎么感受了超级惡 whis我乖在所有',url:'https://www.douyin.com/video/7621826794995453230'},
+{id:'7621963586362625330',title:'4633做claudecode邪修，小白也能快速上手，快速中文汉化 分享claudecode快速命令汉化以及运行指令给出',summary:'別再被CLODICODE的英文勸退了今天帶你當個快樂的協修兄弟們這兩個通點是不是整問題很久了第一邪降命令全是英文查個功能開得開翻譯第二程序跑起來一堆命令飛程去原',url:'https://www.douyin.com/video/7621963586362625330'},
+{id:'7622125674547358438',title:'1090也许比结果更重要的是学vibe coding的过程 #vibecoding #vibecode #opencla',summary:'今天想跟大家分享一下Viproding是如何帮我这一个没有开发背景的人打开了三个技术界的新世界大门的第一个是关于Gatehouse和开员虽然这两个死我以前就听过',url:'https://www.douyin.com/video/7622125674547358438'},
+{id:'7622283406268763444',title:'5564Obsidian配置太复杂？一键搞定！小白也能用 下载可以访问飞书文档： https://rcnyw28gsjh',summary:'你看到的是比起软件的天花板那随便结合我开发的一件A2部署方案用上它那就不仅仅是把真实味道嘴边是脚碎了味道嘴里一句话把复杂的真实结构拆解树里可以使ND文杠思维导谷',url:'https://www.douyin.com/video/7622283406268763444'},
+{id:'7622672221126806818',title:'3315值得尝试的skill GitHub上12.2k星星的skill，真的很不错',summary:'推荐一个真正好用的Skill那就是Agent Reach因为它不是血头而是真的能补上Agent学的连往搜索和内容独取能力像YouTubeGitHubTwitte',url:'https://www.douyin.com/video/7622672221126806818'},
+{id:'7623325276408010633',title:'7603Codex官方插件！Codex plugin CC，让Claude 直接调用 Codex ',summary:'我找朋友们说大家知道刚才opn.i官方上线了一个plugging叫做codexplugging cc那他干什么的顾名师就是允讯你直接在cloudcode里面将c',url:'https://www.douyin.com/video/7623325276408010633'},
+{id:'7623718787753200930',title:'2.0万Claude Code完全指南，25分钟从0到超越99% 这是你在国内唯一需要看的 Claude Code 教程',summary:'我用完完是好今天這個視頻只有一件事情就是從0到1的將會裡面使用Cloud Code那很多人聽到Code這個單子就會想到携帶碼Code 編輯 對吧Vib Code',url:'https://www.douyin.com/video/7623718787753200930'},
+{id:'7624038825047723315',title:'1.2万一不小心发现宝藏skills #skills #ai #开源项目一不小心发现宝藏skills #skills #',summary:'這才是真正好用的Stealth已經講過了14.3K下這個項目補齊了A技能的聯網搜索和內容讀取短短向YouTube推特還有小紅術微博等主流平台信息他都能更方便的搜',url:'https://www.douyin.com/video/7624038825047723315'},
+{id:'7624130726815943946',title:'2287零基础30天独立游戏开发挑战，我成功了吗？ 从零开始 30 天独立开发游戏，还是太小看游戏开发的工作量了，目前只',summary:'零基礎三十天做游戏现在怎么样了今天是我从零开始做游戏的第三十天大家看看最新进度这个是游戏里的NPC咱们火锅店的服务员目前所有角色都已经接入了AI对话感兴趣的可以',url:'https://www.douyin.com/video/7624130726815943946'},
+{id:'7624133540704722937',title:'2.7万从0体验AI漫剧，文科生有哪些优势和红利？ #副业体验 #ai漫剧 #自由职业 #职业体验 #青年创作者扶持计划',summary:'我花了一个下午用AI从泥系出来一个慢剧剧本说实话他比我想象中的要简单但是也比我想象中的要马上欢迎来到摇光的副业体验第17集AI慢剧片如果你在23年纪前听说过短剧',url:'https://www.douyin.com/video/7624133540704722937'},
+{id:'7624359483216547098',title:'2822从夯到拉锐评七种编码方式 AI #自媒体干货 #算法 #程序代码 #程序猿日常从夯到拉锐评七种编码方式 AI #',summary:'2026年了鞋带马方式成出步穷今天从航道了锐平一下主流的开发方式首先出场的是我们的老大哥胡法变成这种变成方式使用传统带马生成工具和开发者首鞋带马进行构建程序因为',url:'https://www.douyin.com/video/7624359483216547098'},
+{id:'7625222811607943409',title:'2175NotebookLM隐藏玩法：接上Gemini后，三大工作场景效率直接拉满。',summary:'你知道嗎?你現在用Donebook LAM的方式很可能只發揮了它8月30的東西大多是人用Donebook LAM就是存資料公務頂多生成一個PT但當你把它跟加上來',url:'https://www.douyin.com/video/7625222811607943409'},
+{id:'7625597847643670521',title:'366非技术开发人员可以用哪些Vibe Coding工具？ ',summary:'上次做的小调查提升很多新售小白他不知道外扣的到底应该从哪一步开始那今天我们就一分钟时间来想清楚市面上这些主流的开发工具哪些是和飞机主人员去进行外扣的工具我已经准',url:'https://www.douyin.com/video/7625597847643670521'},
+{id:'7625629969054132835',title:'565GitHub 一周 1.7 万星，这个skill专治 vibe coding 页面丑#vibecoding #网页',summary:'最近看到一個設計師Skill給它有一種狂覽性1.7萬星它補的剛好就是很多人做vipe coating最頭疼的一步頁面能做出來但就是容易醜看起來很散而且後面花很多',url:'https://www.douyin.com/video/7625629969054132835'},
+{id:'7627072914617158954',title:'1355组建 AI 小队：多 Agent 协同小白也能用！ 最近在网上刷到一个非常火的开源项目叫三省六部制。小龙虾之父都',summary:'哈喽 大家我是在自己干的五年多产品经济但是完全不懂得满足其实全文科背景的囤我的视频都是从群小板的视角来分享外部Coding的之前我跟大家分享过一套我外部Codi',url:'https://www.douyin.com/video/7627072914617158954'},
+{id:'7628455994239063035',title:'28MCP是什么？ 大模型调用外部工具的通用协议 #科技 #科技科普 #大模型 #人工智能 #AIMCP是什么？ 大模型',summary:'Let me explain what MCP is.MCP is model context protocol.It is a new standard fo',url:'https://www.douyin.com/video/7628455994239063035'},
+{id:'7628496030555770121',title:'1.6万懒人必备！AI 自动生成思维导图。 还在手动做思维导图？这个 AI 网站太香了，输入文字自动生成结构图，PPT、',summary:'这是一个能让写周报的人集体沉默的网站每天认识一个保争网站第七七今天分享的是你只需要把一段文字沾接进去点一下就能声成流程图时间线思维导图这些图表不用脱拽 不用调格',url:'https://www.douyin.com/video/7628496030555770121'},
+{id:'7628550856543161626',title:'42用户反馈AI回答数据类问题 易编造、知识滞后求解决方案思路？ AI大模型春招模拟面试#AI #人工智能 #大模型 #',summary:'用不再反复我们的AI在回答数据类实施问题的时候会出现狐狭罪大模型本身知识会有知护性那你对于这个产品的解决方案思路是什么样子的不要到我其实有两个心想像就是首先是大',url:'https://www.douyin.com/video/7628550856543161626'},
+{id:'7628551183854062900',title:'5157太好用了，架构图Skills #架构图 #画图 #AI工具 #网站推荐太好用了，架构图Skills #架构图 #',summary:'你是不是还在为牢业化架构图感到崩溃最近神机scales让你一键开挂每天使用这个强大工具第8期今天分享的是这个开源scale一句话就能出高清架构图比如你说画上AZ',url:'https://www.douyin.com/video/7628551183854062900'},
+{id:'7628607338798427215',title:'986知识库系列 03｜Obsidian+AI=第二大脑，3种方式教程 #Obsidian #AI工具 #第二大脑 #效',summary:'我最近越來越覺得OpCDN加AI這套組合很值得試很多人已經在用它來構建自己的第二大腦因為你前面接下來的筆記和資料終於可以真的被AI用起來了如果你想把OpCDN接',url:'https://www.douyin.com/video/7628607338798427215'},
+{id:'7628897023479106826',title:'2642026届春招模拟面试：RAG向量数据库怎么构建？ #RAG #大模型  #大模型面试 #面试技巧 #程序员202',summary:'来来来你在挨击当中相当数据故事怎么样去购件的吧因为他的相当数据库库定事业会直接决定挨击系统的结合效果我就结合之前做过的项目说一下整个流程首先就是数据准备结论我们',url:'https://www.douyin.com/video/7628897023479106826'},
+{id:'7628910682364235008',title:'762765行字狂揽3.7k星标！ OpenAI大神Karpathy出手，AI写代码的终极解药',summary:'Dita不上一个没代码只有65行字的文件凭什么狂蓝三点七万星因为它吃好了AI鞋代码的三大决政且OPEN AI创始成员CAPYS已支言现在的AI鞋代码总爱加脑补需',url:'https://www.douyin.com/video/7628910682364235008'},
+{id:'7628912832150654234',title:'4293AI审美急救包！6个skill让AI写出好看的前端 六个skill全装上，vibe coding出来的网站从此告',summary:'这几个前端常用Skill你用过吗?I\'m Packable,增强版Front Desire Scale专注设计规判落地,Taste Scale提升AI前端审美判',url:'https://www.douyin.com/video/7628912832150654234'},
+{id:'7629015871251287347',title:'9028放弃 RAG！LLM Wiki 才是个人知识库的正确方向 下一代知识库，Karpathy 新方案 LLM Wik',summary:'放弃RAG,LLLMWiki才是个人知识库的政权方向OPLI,前科学家,AndreJCarpacity亲自下场说了一句很扎心的话,很多人搭知识库的思路从跟上就错',url:'https://www.douyin.com/video/7629015871251287347'},
+{id:'7629235002428968232',title:'26.3万再见了AI抽卡，搞懂AI生图的底层逻辑 为什么连科幻大片都能生成的AI，画好简单的生活场景会这么难？',summary:'當你用AI生成男生在拿手機打遊戲的時候偶爾會得到這樣的結果為什麼連科幻大片都能生成AI掛好一個打遊戲的少年就這麼難如果你也被這個問題快好了好久能夠恭喜你這條視頻',url:'https://www.douyin.com/video/7629235002428968232'},
+{id:'7629281161382087982',title:'3.4万从零武装AI：搞懂Agent四大核心概念 #agent #ai新星计划 #ai从零武装AI：搞懂Agent四大核',summary:'如果你经历过去年内部的Depsyc热潮也被今年铺天盖地的大龙蝦洗脑骨那你一定会和我有同样的疑惑就是怎么才短短一年的时间AI就从一个全能配料变成了能自动干活的数字',url:'https://www.douyin.com/video/7629281161382087982'},
+{id:'7629284339998632778',title:'13AIGC动漫自学教程来啦，沉浸版教程，有需要的，主页裙领取！#AIGC#AI动漫#自学AI#AI绘画#AI教程AIG',summary:'下班后再加做AI漫剧今天到手期版老师被追问的AI动漫教学分享来了普通人想要从林志做AI视频请疯狂按照这个学习计划去执行1.1周完全熟悉AI软件的见面和工具使用A',url:'https://www.douyin.com/video/7629284339998632778'},
+{id:'7629293801504718437',title:'7557大家如果想知道是怎么做的，可以告诉我，我后面考虑出一期教程~大家如果想知道是怎么做的，可以告诉我，我后面考虑出一',summary:'我用AI給我的電子小貓做了一個網頁它不是普通的網頁而是那種你沒往下滑一點貓咪的動作畫面構圖、文案都會一起跟著進入下一幕的scorling telling也就是滾',url:'https://www.douyin.com/video/7629293801504718437'},
+{id:'7629348383958253455',title:'11.7万一人顶一个团 当程序员配合AI工具，轻轻松松成为全栈开发，从需求，设计，开发，测试，上线 一个人轻松完成 #A',summary:'当我们一步小心下走来为Scode然后要一步小心装上的这个GPD5.4和OPS4.6好 这个时候那么没有一步小心为什么认上这个实体器然后我们这个时候我们想做想想什',url:'https://www.douyin.com/video/7629348383958253455'},
+{id:'7629368066282949938',title:'3201生产力大杀器，TRAE SOLO又双叒进化了！ #AI新星计划 #AI  #TRAE  #TRAESOLO #A',summary:'哎呀 变成工具越来越是个超级个体和艺人公司了十分钟晚我就用AI做出一个简厉网站时论器以上传任意一个PDF简厉这个工具就会把简厉做成一个单独好看的简厉网站并且支持',url:'https://www.douyin.com/video/7629368066282949938'},
+{id:'7629560478763019355',title:'959从现在开始准备你的个人知识库，一年之后，别人的收藏夹是一片废墟。而你的收藏夹成为了一座只属于你自己的图书馆，能够更',summary:'这几颗十分钟代理购件自己的个人知识库前段时间OpenAI的创始人卡Pasie提出了一个个人知识库的理念这个观点在推特上非常火或者了1900多万的一个流浪各大科技',url:'https://www.douyin.com/video/7629560478763019355'},
+{id:'7629670432777503610',title:'455面试官问：LangChain和LangGraph有啥区别？分别适合什么场景？#大模型开发 #大模型 #人工智能 #',summary:'为什么同样是大模型开发框架有的项目用Lancan跑得飞鞋有的项目却飞要用Langraph才能落地大家也没有想过这背后的底层架构落机到底差在哪儿大家好 我是大鱼咱',url:'https://www.douyin.com/video/7629670432777503610'},
+{id:'7629692012107445157',title:'235解析下 给claude发一句话后都发生了啥 #真实生活分享计划 #claude #vibecoding #ai解析',summary:'大家我是小鑫在之前的分享中很多朋友分清楚Galco的跟Galco的模型的区别本期视频主要讲他们今天的区别以及红群长会让Galco的跑步一个任务有点定品分析那么这',url:'https://www.douyin.com/video/7629692012107445157'},
+{id:'7630113019703989937',title:'696不用再信息焦虑了！#ai #claudecode #skills #agent不用再信息焦虑了！#ai #clau',summary:'别再发大年的时间说AI新闻了一个SKU让AI每天自动帮你定全球最顶尖的25个AI大佬核心观点全部整理好了你只看这一份就够了这个SKU叫做Follow Build',url:'https://www.douyin.com/video/7630113019703989937'},
+{id:'7630139794256858411',title:'285好用的skill,能生成封面内容卡通插图 #skills #卡通封面 #ai技能  #普通人在ai时代 #ai漫画',summary:'這個Skills它可以幫你的文章生成封面圖信息突破文章插圖在GETA部上已經收穫14K星這個Skills對小紅鼠的創作者還是蠻好用的無論是風格、佈局、還是密度都',url:'https://www.douyin.com/video/7630139794256858411'},
+{id:'7630271798350092731',title:'216610分钟，用 Obsidian +Claudec搭建知识库 真的建议你，立马开始搭建专属知识库✌️',summary:'他都可以试一下让自己的支持流动起来最近黑暗领域的大神卡尔帕蝎他公开了他自己大件支持部的整个方法和思路好了一千多万人看之前看过看过农的小伙伴或者自己要支持部需求的',url:'https://www.douyin.com/video/7630271798350092731'},
+{id:'7630293932447363264',title:'2304个词让你的app立刻高级感拉满 设计师们都在用的vibe coding咒语',summary:'所以会这个词让你外扣定车的F立刻高级感拉满如果每次你都不满足于AMO认的一些视觉效果但是当你跟它说你能不能做的带好看一点带高级感一点它些生出来的东西又还是让你非',url:'https://www.douyin.com/video/7630293932447363264'},
+{id:'7630297497495194880',title:'100使用Claude Code + Superpowers，从一句话需求出发，全程零手动编码，自动完成了头脑风暴、设计',summary:'大家好今天我要演示用AI來構建一個完整的應用過程使用的工具是Cloud Code加Superpowers 插件實現從需求到代碼的全自動開發故事從一個真實的痛點開',url:'https://www.douyin.com/video/7630297497495194880'},
+{id:'7630640462772753103',title:'23Ai知识分享P3#AIAi知识分享P3#AI',summary:'大家好今天给大家解读一篇来自Lang<|ro|>Agent等于model加Harnas换个说法如果你不是模型本身,那你就属于Harnas模型只是大脑Harnas',url:'https://www.douyin.com/video/7630640462772753103'},
+{id:'7630710539378806042',title:'224Claude-Code-Game-Studios：49个AI员工+72个指令，把Claude Code变成游戏公司',summary:'今天给大家介绍一个诈猎的D-TOP项目CodeCode Game Studios昨天登上D-TOP趋势榜第一名一句话说清楚把CodeCode变成一整个游戏公司它',url:'https://www.douyin.com/video/7630710539378806042'},
+{id:'7630727068469517242',title:'14203 步带你搭建 Karpathy 同款 AI 知识库（附教程）#ai #claude3 步带你搭建 Karpat',summary:'obn.i.聯合創始人卡帕西在他的知識庫里塞了40萬字上百篇文章但他從來不整理一個字而是全部交給AI前幾天他把這套方法公佈在了給他不上面一條推文直接衝上了190',url:'https://www.douyin.com/video/7630727068469517242'},
+{id:'7630760089988713734',title:'2045第一弹 装上设计的臂膀 Pencil #Pencil #AI设计  #ai时代 #codex #MCP第一弹 装',summary:'AI提效干货第一弹本期推荐探索探索是专位AI时代打造的U-I设计工具其内置本地MCP服务可被Agent直接识别与调用起点攀关键才用全JSON结构对模型极其友好无',url:'https://www.douyin.com/video/7630760089988713734'},
+{id:'7631149970733097158',title:'2844Claude 官方 PPT 教程 3｜让资料自己来找你 🚀 Claude 官方 PowerPoint 教程完结篇',summary:'Claw的官方這個月連發了三級Powerpoint教程中文版我整理了一下三級陸續上線這是第三級做PBT最花時間的其實從來都不是做PBT本身而是翻資料對數據會前看',url:'https://www.douyin.com/video/7631149970733097158'},
+{id:'7631224955607548598',title:'1995AI 人必备的两个小工具 沉浸式翻译会帮你容易地使用海外软件，摄入海外信息。Typeless 会帮你在和 AI ',summary:'副下两个AI时代必备的软件第一个是因为我们日常很多的AI资讯和AI工具都是海外的它都是英文的在它没有中文的情况下你怎么能够私华和流畅的使用呢就是用这个沉浸式翻译',url:'https://www.douyin.com/video/7631224955607548598'},
+{id:'7631240906314063537',title:'热点 8.5万VibeCoding大赏  | 把我十四年的歌单，蒸馏成AI 把我十四年的歌单，蒸馏成了AI电台🎧它叫Cl',summary:'你12号的 specialty以这一位活动这位 Sung Bandido原来是 drone里面是两张你的舞萝在 1971们回答Basket拿一张没有珍贴让快乐都',url:'https://www.douyin.com/video/7631240906314063537'},
+{id:'7631389055820844322',title:'440谷歌打造设计语言的HTML时刻，正式开源DESIGN.md，一套底层标准，设计师、程序员、Agent同事秒对齐颗粒',summary:'谷歌剛剛打造了設計語言的HTML時刻把Dizimbi正式全部開源這是一個能讓AI真正獨動設計師靈魂的統一協議目標很明確讓設計師 程序源和Agent用同一套語言對',url:'https://www.douyin.com/video/7631389055820844322'},
+{id:'7631434950810668457',title:'67一条视频讲清楚obsidian +各种Ai工具',summary:'换工具不换脑最近有人在评论区问我到底是Kondex还是用Cloud Code的那我以前也会特别纠结这一类的问题那哪个工具更新了我就想试一下哪个模型变强了我就怕自',url:'https://www.douyin.com/video/7631434950810668457'},
+{id:'7631503451452804379',title:'1.4万你就不停地抄这个人，抄也能抄进大厂 #谷歌 #计算机 #计算机专业 #转码 #人工智能你就不停地抄这个人，抄也能',summary:'你都不停的抄这个人怎么都能抄进大场有个外网大佬整理了他的整个转马学习路径一开始是笨的正古歌曲的结果走着走着转进了鸦马讯这个学习计划现在在圈子里几乎成了转马兆抄模',url:'https://www.douyin.com/video/7631503451452804379'},
+{id:'7631552987017530643',title:'1007三条关于学AI的建议 如果我重新来过，重新开始学AI，那么我一定会做这三件事。其实之前在星球里都有反复说过。本期',summary:'如果我重新来过 重新开始学AI那么我一定会做这三件事其实之前我在星球内都有反复说过那本期视频我来完整表述一遍第一 使用Clockcode即使没有两天就被分号 也',url:'https://www.douyin.com/video/7631552987017530643'},
+{id:'7631838315565908315',title:'2.3万跟着书籍去旅行 #我在抖音造世界 #ai新星计划 #文脉里的中国跟着书籍去旅行 #我在抖音造世界 #ai新星计划',summary:'你有没有忽然想看某个国家地区的书籍呢感受那里的风土人情于是我外扣定了这个应用比如我想感受中东的就可以点击查看这部耶路撒冷三千年或者我想感受阿富汗的就可以查看追风',url:'https://www.douyin.com/video/7631838315565908315'},
+{id:'7631904764309146931',title:'8081你就不停的抄他的，怎么都能抄进大厂！！ #计算机 ﻿ ﻿#数据结构 ﻿ ﻿#代码 ﻿#编程入门  ﻿#大厂程序员',summary:'你就不停地抄这个人怎么都能抄进大场有个外王大佬整理了他的整个转码学习路径一开始是笨着进谷歌曲的结果走着走着乖进的压马逊这个学习计画现在在圈子里几乎成了转码照抄母',url:'https://www.douyin.com/video/7631904764309146931'},
+{id:'7632354633612070198',title:'653高强度用了两周 Claude Code，我有 3 个真实感受 #AI新星计划 #Claude #codex高强度用',summary:'我最近高墙都用了两周Cowd的Cowd两个Max帐号而都都不够用的那种我现在最大的感受就是它真的特别的墙但你没用好就随时就会强攻进气我今天不会去讲教程我想讲三个',url:'https://www.douyin.com/video/7632354633612070198'},
+{id:'7632548423916342538',title:'3450我用CC交互式学习法一周读了五本书 我用CC交互式学习法一周读了五本书',summary:'但是我用QaCo的交互式学习法一周都安无外出那并不是一个速度端的方法那种而是真的独动了并且真正用到了我的生活中最后先想一想一下我是如何用QaCo进行一个交互式学',url:'https://www.douyin.com/video/7632548423916342538'},
+{id:'7632568000214494272',title:'457文科生无限续杯claude code邪修大法 核心：1.本地ai agent2. 找聪明的 ',summary:'嗨 想跟大家分享一个能够让我们一直用上卡客的方法之前我分享的文革圣写ShoeCalk Code安装片收获大概4万的点赞回收藏这片就讲一讲它突然爆错不能使用应该怎',url:'https://www.douyin.com/video/7632568000214494272'},
+{id:'7632686453138836410',title:'823Claude从0到1入门，从会用到自动化 #人工智能 #大模型 #AI工具 #智能体 #姜学长Claude从0到1',summary:'我觉得很多人学CLOG的走了彎路不是因为贪难而是呢 顺序搞返了正确的顺序是先把它用起来再把它配好最后让它这种跑所以第一阶段呢是去认识它你不要一上来就去研究什么高',url:'https://www.douyin.com/video/7632686453138836410'},
+{id:'7632950325049676910',title:'739AI正在抹平游戏制作的门槛，创意将无比重要！ AI正在抹平游戏制作的门槛，创意将无比重要！#AI #AI游戏 #人',summary:'感望各位你们认为选案出像这样的游戏画面需要多少原理和时间而现在一位AM设计时在一天时间里进入GPD image2和Clancer 2.0应该做出了一款3A级游戏',url:'https://www.douyin.com/video/7632950325049676910'},
+{id:'7633122652282334803',title:'13别只用AI来聊天了 讲一期面向大众比较基础的AI 使用技巧',summary:'我突然意識到一件事很多人把AI用得很忙但結果不明顯往往不是模型不行是路徑選薄浪這期就講一個對照真正會用的人用法跟你哪裡不一樣你聽完可以只回答自己一個問題我更像在',url:'https://www.douyin.com/video/7633122652282334803'},
+{id:'7633670001509223802',title:'133实测AI直出可编辑设计稿到底行不行？ 该狂喜吗？AI已经差不多打通下游了，不仅可支持编辑还支持动态交互预览，而且不',summary:'如何用AI製作可交互御覽並且可支持編輯的UI設計稿這套工作流可以快速搞定遜手還出了設計規範與宣傳海報下面帶大家10操下打開GPT 1.0讓它做一套APP設計介紹',url:'https://www.douyin.com/video/7633670001509223802'},
+{id:'7633813879620980011',title:'145小龙虾养成日记一图让你看懂小龙虾的核心原理和详细流程 一图让你看懂小龙虾的核心原理和详细流程，明明白白的养虾！#O',summary:'一张图让你看动小龙依然的核心流程明明白白的养下大家好,我是汉山我们在微信飞书里发的一句话小龙依然为什么能够理解并且还能够去吃今天我们就用这张图给大家讲清楚所以我',url:'https://www.douyin.com/video/7633813879620980011'},
+{id:'7634071750099160346',title:'7297程序员转型大模型必看 | 十大优质 AI 实战 UP 主 覆盖零基础入门到高阶开发，兼顾底层原理与商业级落地实操',summary:'大模型學習者必看博主套詩何追蹤科技前言挖掘傳統行業AI融合機遇的決策者Number A王牧頭學科學深登AI數學原理科普詳解傳統家購與注意理機制以動畫公式拆解底層',url:'https://www.douyin.com/video/7634071750099160346'},
+{id:'7634602899561123098',title:'5185本来是想随便玩一下的，没想到 Codex 真的用一下午帮我开发了一个非常完整的类似《杀戮尖塔》的卡牌游戏。#ai',summary:'介绍一下我用Codex一天一下午开发的这个游戏这是一个类似沙漏间塔的游戏我本来想试一下能不能寄于Codex它内质的这个图片是生能力去解决游戏生生动的随才问题顺便',url:'https://www.douyin.com/video/7634602899561123098'},
+{id:'7635330918576561058',title:'6666Hermes-Agent真香，小龙虾再见',summary:'我后悔没有早点用上Harmice A-Jint接近书记了半天我就把用了三个月的小龙虾锈掉了因为Harmice的体验真的是比小龙虾好太多第一反应快小龙虾的每个CR',url:'https://www.douyin.com/video/7635330918576561058'},
+{id:'7635486737292217635',title:'3207Codex养宠物火了，不到一天，200万人围观程序员各种晒宠物。这两个网站收集脑洞 萌宠、抽象整活都有 ',summary:'不到一天,200萬人為關這兩個網站收集了全球程序原養的各種Codex寵物OpenAI昨天上線寵物模式後,程序原本完封了各種抽象整活,寫代碼都來進了首先這個叫Pe',url:'https://www.douyin.com/video/7635486737292217635'},
+{id:'7635624955124561774',title:'17.2万简易抽屉筐教程，用途多多 #收纳神器 #生活小妙招 #袜子收纳简易抽屉筐教程，用途多多 #收纳神器 #生活小妙',summary:'我发现了一个超绝的收纳瓦子的方法可以很好地把衣柜下面的空间利用起来你就买五块钱一个的这种框它会浸送两个挂钩但是不要把它贴在蓝字的两段把其中一个贴在比较靠近中间的',url:'https://www.douyin.com/video/7635624955124561774'},
+{id:'7635692430432033673',title:'1109Claude不香了，拥抱Codex新功能，打造自己的桌宠！',summary:'最近口袋X这招上了一个很有意思的新功能派的小審物它不是单准卖盲而是一个福带桌面上的口袋X状态小助手你在用口袋X跑任务的时候它会像一个小伙伴一样待在屏幕上告诉你现',url:'https://www.douyin.com/video/7635692430432033673'},
+{id:'7636652695370404793',title:'1214一直觉得，人生管理不应该只有表格、清单和待办。',summary:'我WebCoding了一個自己的心鍵這是一個基於Obsetion搭建的屬於我自己的個人心鍵操作系統主要的用途就是記錄和管理我們自己的生活其實最近又重溫了一下星期',url:'https://www.douyin.com/video/7636652695370404793'},
+{id:'7636749070652367016',title:'5193Image2生成游戏demo AI游戏界面模拟教程来啦！复刻Ink大佬工作流#image2 #gptimage2',summary:'這條AI遊戲Demo發出來之後很多人都在問我是怎麼做的今天就簡單拆一下流程教大家怎麼用E-Mage 2和C-Dance 2.0製作類似這種遊戲畫面整個流程主要分',url:'https://www.douyin.com/video/7636749070652367016'},
+{id:'7637051374321386661',title:'1.5万爱装的大学生穷游欧洲教程机票篇',summary:'OK啊50萬人問的教廠現在更幸好吧你很窮但是你想去歐洲去巴黎去類似去佛羅倫沙去米蘭你看到別人天天在朋友圈刷屏你也很想去但是你都你沒錢怎麼辦刷到這視頻你絕對賺了這',url:'https://www.douyin.com/video/7637051374321386661'},
+{id:'7637141582751337778',title:'4.6万AI底层技术名词拆解，14分钟给你讲清楚！ #人工智能 #大模型 #AI大模型 #大模型学习 #大模型入门AI底',summary:'面試官根本不會看你會不會掉API他們張口就是AZ的機制RG照回率聽著是不是很頭大其實大可不必從你成了Token處理到外部的工具調用再到智能體邏輯非常清晰今天我就',url:'https://www.douyin.com/video/7637141582751337778'},
+{id:'7637443653165665562',title:'4026谁能拒绝一个会陪你敲代码的Codex宠物呢？ #ai #干货分享 #代码 #ai新星计划 #ai工具谁能拒绝一个',summary:'不到一天时间两百万人的理官这两个网站专门收集全球程序原养的Caldes寵物OpenAI上线寵物模式之后程序耳朵玩风了各种整合和抽象操作全来了第一个叫Pathes',url:'https://www.douyin.com/video/7637443653165665562'},
+{id:'7637462285053509113',title:'688智能体是如何进行意图识别的？#大模型 #AI大模型 #人工智能 #AI #Agent智能体是如何进行意图识别的？#',summary:'面试官问你智能体意图试辩的方法你要是直接说写个prompat调用大模型就行那这场面试基本就凉了大家好我是Jack遇到意图试辩很多人第一反应就是把用户的话直接丢给',url:'https://www.douyin.com/video/7637462285053509113'},
+{id:'7637466159198314486',title:'4997先搭框架：从空目录开始建第一个项目speak to note 对话框里派第一条任务："请用 Expo blank',summary:'从这已经开始我们要真实使用CodeX做项目了整个CodeX的分享会设计到三个项目第一个项目是Speak to know一个能装到手机上你按住说话AI就能帮你总结',url:'https://www.douyin.com/video/7637466159198314486'},
+{id:'7637956797097378737',title:'603ai生成流畅boss帧序列动画！像素版大树守卫登场！#独立游戏开发 #独立游戏#ai生成ai生成流畅boss帧序列',summary:'哈喽大家好主播這次整個大火哈哈上期說的主播用AI生成了戰鬥動作爭鬆連動畫並且還實現了武器替換系統這期用AI生成了一個老頭環的大數小味放到了主播自己的獨立遊戲裡作',url:'https://www.douyin.com/video/7637956797097378737'},
+{id:'7638197919229542053',title:'2534备孕期两位少喝咖啡 健身运动少咖#备孕 #咖啡 #孕期 #涨知识备孕期两位少喝咖啡 健身运动少咖#备孕 #咖啡 ',summary:'爸爸运前长期大量涉入咖啡音会通过精泽表冠移船修飞改变跨代移船至紫代大脑导致紫代在面对压力水HPA周出现过度的应激反应增加益与焦虑的行为风险我们来看Advance',url:'https://www.douyin.com/video/7638197919229542053'},
+{id:'7638447340403166499',title:'7.8万地毯式最强之一智能体Codex零基础攻略 #agent #vibecoding #ai教程地毯式最强之一智能体C',summary:'若是一期地毯式Codex教程如果你还在教训谁谁谁又用Codex做出了什么无敌的应用或者自动化给自己干活了那你务必看完本集教程但你最全面的了解Codex是什么他能',url:'https://www.douyin.com/video/7638447340403166499'},
+{id:'7638448471984409866',title:'2.3万想学大模型不知道看谁？这期为你盘点 B 站 Top 10 零基础 & 新手入门必看',summary:'B站大魔星博主套不10Number 10Leaf Files专注大魔星高階元马解析深度拆解底层架构与核心逻辑专业性强适配高階研发学习适合资深开发研究生以及深耕大',url:'https://www.douyin.com/video/7638448471984409866'},
+{id:'7638612730857519482',title:'5067装了上百个skill，我现在最常用的是这11个 #人工智能 #大模型 #AI工具 #skills推荐 #姜学长装',summary:'Skill装多了 真的非常容易亂我自己呢 现在常用的Skill是11个国安场景分成了三类我先说第一类 它是属于效率工具首先是Agent的位置以前我们搜资料需要一',url:'https://www.douyin.com/video/7638612730857519482'},
+{id:'7638932632316174436',title:'1993研博别再硬啃统计结果了！0基础也能高效进阶数据分析 大家的量化学习都是怎么从0起步的呢',summary:'很多瘦脖跟开始接触亮化颜色的时候可能统计软件打开连数据倒入都不会更别说能看懂P值系数突表了我以前看亮化文章也很崩潰什么训练分析机器学习看完了都没太懂这个文章到底',url:'https://www.douyin.com/video/7638932632316174436'},
+{id:'7639020701101939962',title:'780一条视频建立你的AI概念坐标系 #人工智能 #大模型 #AI工具 #智能体 #姜学长一条视频建立你的AI概念坐标系',summary:'哈喽各位相信 mcp agentreg cloth codeopenclaw这些概念本身就不难但放在一起都忘了原因只有一个就是你没有去建立好你自己的一个概念作标',url:'https://www.douyin.com/video/7639020701101939962'},
+{id:'7639300730813156659',title:'Harness Engineering 从入门到精通',summary:'Harness 是新一代智能化 CI/CD 平台，通过 AI 驱动的流水线管理和自动化部署，帮助架构师和工程师高效完成 AI 大模型的工程化落地。',url:'https://www.douyin.com/video/7639300730813156659'},
+{id:'7639306284101160207',title:'850字节 Agent 算法面，Transformer 问到底 字节大模型 Agent 算法面经偏难！这期拆解 Tran',summary:'一起來看看自己的大模型AZENT算法面驚看看你能達上來幾道這套體整體難度偏難但是前面是基礎後面才是真正區分水平的地方我是校哲點贊收藏家關注我們馬上開始第一道題T',url:'https://www.douyin.com/video/7639306284101160207'},
+{id:'7639591804182023470',title:'553VibeCoding大赏 |用AI做个人网站 现阶段最强实践教程，这可能是目前做个人网站最高效的方式#AI教程 #',summary:'我发现现在用于做个人网站的最佳时间就是用Codex从头做到尾这是我第一次做个人网站然后我是用Codex从头做到尾用自然语言来给他表述的这是已经做好的一个效果你会',url:'https://www.douyin.com/video/7639591804182023470'},
+{id:'7640047982642348790',title:'1.2万AI 实用技巧分享：长对话高效管理方法 AI 聊太久忘记指令、出错废话多、响应卡顿？',summary:'用AI月久,大家有沒有發現一個問題同一個對話聊太長,它就開始變笨前面明明說好的條件和要求越到後面就越容易以往回答開始出錯,肺化還變多而且長對話後,AI每次回覆都',url:'https://www.douyin.com/video/7640047982642348790'},
+{id:'7640472423791726437',title:'6122纯靠兴趣自学AI应用开发，2个月拿下36K offer RAG/模型微调/API#人工智能 #AI应用开发 #大',summary:'唇靠近去自血直接拿下36K AI英勇開發的OFO甚至只學了兩個月A 別不信90%的人學AI不是學不會是瞎學、暖學把時間都浪費在了沒用的支持點上那今天我直接給你一',url:'https://www.douyin.com/video/7640472423791726437'},
+{id:'7640827329316691619',title:'1041顶级 AI 概念产品设计审美参考 挖到一位超会做未来风 AI 界面的宝藏设计师✨',summary:'大家好 今天继续分享一些设计灵感今天分享的是Gibberish设计师Slavakony Love的作品它的作品大量围绕AIS 语音助手 数据看板 天气 闹中 音',url:'https://www.douyin.com/video/7640827329316691619'},
+{id:'7641236470006631730',title:'5104氛围编程已死，欢迎来到Agent工程时代 前几天 Karpathy 跟红杉的 Stephanie Zhan 录了',summary:'大家好,我是阿里长长,今天聊一个被卡帕西亲口宣判结束时代,奋为编程。前几天卡帕西跟红山的Sdaffney Zhang录了一期对话,标题就一句话,from vib',url:'https://www.douyin.com/video/7641236470006631730'},
+{id:'7641437781760042971',title:'183来自Claude Code上下文管理的一些学习启发 #当我用ai创作 #我在抖音聊科技 #科技下一站 #与ai同行',summary:'嗨大家好呀好久不见不知道大家是不是跟我一样平常在上网的时候呢经常会发现很多的新的好玩的AI项目或者AI工具然后都想上手尝试一下或者学习一下但是很快就会发现其实我',url:'https://www.douyin.com/video/7641437781760042971'},
+{id:'7641916832856739114',title:'5177不写提示词，也能用AI做出专属你的游戏大作演示视频 2分钟拆解，近期爆款的游戏大作demo如何不写提示词用工作流',summary:'这儿是最近一条很火的游戏实际演示弹幕但是我在看了很多较成之后我发现很多人疯格他还是需要写大量的题词虚该起来所以新手来说也会比较复杂所以我就研究了一个工作流可以在',url:'https://www.douyin.com/video/7641916832856739114'},
+{id:'7641973888016723441',title:'266Agent 评测是什么？要怎么做？ 很多人评测 Agent 只看回答准确度，早已停留在聊天机器人思维。真正落地项目',summary:'最近在面試當中很多AI產品經理都會被問到什麼是Agent的評測很多人一提到評測,第一個反應就是看他回答準備準但事實上在實際項目當中如果你只是這麼理解那麼你還是停',url:'https://www.douyin.com/video/7641973888016723441'},
+{id:'7642656300443593897',title:'77# 判断一个 AI 场景值不值得做，我看 5 个指标 现在企业聊 AI，特别容易被一个东西带跑： ',summary:'判断一个企业艾长警是不是值得优先做我会先看这五个指标另一个是他有没有业务价值这个是低谓的一个长警他到底是在解决什么问题比如说收入问题 成本问题分析问题 还是关于',url:'https://www.douyin.com/video/7642656300443593897'},
+{id:'7643112962974027008',title:'131做自媒体必备的7个SKILLS 字幕提取，对标素材，浏览器爬数据，视频数据分析，去除AI口音 ',summary:'這天一直在用AI做工具今天就分享幾個比較逆天的Skill如果你有想用AI來幫你做視頻包括找熱點、找素材然後優化剪輯那麼這七個Skill一定要去用起來效果直接拉滿',url:'https://www.douyin.com/video/7643112962974027008'},
+{id:'7643381960337897192',title:'8063用Obsidian+AI搭建个人知识库-升级版，分享升级后的功能和搭建方法#Obsidian #Codex #A',summary:'我終於知道自己的認知圖口是什麼樣子了第一次見識到自己的思維發散和鏈接我再用OzD點加AI做自己的個人知識庫出現視頻被20萬人看到後按評論去的建議做的升級這段視頻',url:'https://www.douyin.com/video/7643381960337897192'},
+{id:'7643439325737369211',title:'21672026年我常用的AI产品清单 #ai #ai工具 #ai产品 #工作提效 #姜学长2026年我常用的AI产品清',summary:'2016年了我把我真正在用的AI工具重新整日裏面今天就给大家去全部说清楚领广告有国内平剃的我都会去说没有的也会直接告诉你不强行去抽属咱们按场锦一类一类去过第一类',url:'https://www.douyin.com/video/7643439325737369211'},
+{id:'7644347037009366326',title:'8294让Ai全链路接管你的自媒体频道！我把自用的Skill开源了 #青年创作者成长计划#VibeCoding大赏 #A',summary:'大家现在看到的是我的AI Agent也就是Hermit现在掉进我的自媒体硬于SGO在我的评论区对网友们进入恢复并且围碗的推荐我的财务自由团他自从我用上他了一后我',url:'https://www.douyin.com/video/7644347037009366326'},
+{id:'7644564918734373733',title:'1946一个Prompt让AI用寓言带你搞懂任何概念 #人工智能 #大模型 #AI工具 #ai #姜学长一个Prompt',summary:'我最近发现一个巨好玩的promp让你能够在最短的时间之内了解一个陌生的硬和概念叫做预言故事promp方法是来自NSHOPYC做靠的建策的大神I\'m on the',url:'https://www.douyin.com/video/7644564918734373733'},
+{id:'7644947494979374351',title:'99别“装”了，你根本不会用Openclaw 三条干货，打造你的专属Openclaw自我进化系统',summary:'大家好 我是奔奏走在各种AI软件神仙打架的时代OpenCloud好像在慢慢被大家遗忘了很多人对它的印象还挺流在几个老问题上记忆烂上下稳短文件管理像个垃圾堆事实是',url:'https://www.douyin.com/video/7644947494979374351'}],
+  'ai-pm-career': [{id:'7618515523780840747',title:'1590面试官：你如何量化一个agent的性能？ #agent #ai大模型 #大模型应用面试官：你如何量化一个agen',summary:'面試官問你如何量化一個Agent的性能大家注意啊這倒題可是現在大模型Agent的面試裡真正的分水領如果你開口只會打看他任務成為成功那面試官心裡肯定在想這個沒估計',url:'https://www.douyin.com/video/7618515523780840747'},
+{id:'7621098948450618633',title:'143226年大模型春招模拟面试：你常用的Skills有哪些？ #大模型 #大模型面试 #Skills #面试技巧 #大',summary:'这位亚城民进行的公主当中常用的SKIR人的一些一份保防架构数据流测试策略的完整设计文档这个技能特别适合有明确方向但不知道如何落地的产品比如之前我们计划做一款AI',url:'https://www.douyin.com/video/7621098948450618633'},
+{id:'7621494197849365169',title:'1361AI产品经理面试：说一下OpenClaw的实现原理 #ai产品经理 #求职 #找工作 #面试辅导 #OpenCl',summary:'按照你的理解说一下OpenCloud实现原理好的面试官我觉得OpenCloud它本质上不是一个简单的聊天期起人而是一个以大模型为大脑以工具系统为手脚以及我们用这',url:'https://www.douyin.com/video/7621494197849365169'},
+{id:'7623087267095137587',title:'1247产品经理定制专属PRD生成Skill Skill是AI的技能库，产品经理需要学会定制自己专属Skill，生成符合',summary:'大家好,我是陸人亦上期视频,很多朋友问视频里PRD生存的Skill这期视频,我就来详细拆解一下Skill可以把它理解成AI的技能库通过接入Skill,我们能让A',url:'https://www.douyin.com/video/7623087267095137587'},
+{id:'7626368559887892337',title:'2106Agent Skill和MCP之间的差异是什么 #ai产品经理 #面试辅导 #求职陪跑 #校招 #春招Agent',summary:'请你说一下AgentSkill和MP根本的差异是什么好的 面试官 我觉得这两个东西表面上看都像是在增强Agent能力但是如果我们体层看的话它解决的其实不是同一个',url:'https://www.douyin.com/video/7626368559887892337'},
+{id:'7626633653111541028',title:'3590终于！我的Skill让AI半小时写出直接能用的PRD #ai #人工智能 #产品经理 #效率工具 #skills',summary:'如果你现在有一个绝面的产品点拿下我BipCode做出来但又没有产品经验让AI帮你写个需求文道结果发现它写的东西看起来很长很专业但其实压根就没getting的意思',url:'https://www.douyin.com/video/7626633653111541028'},
+{id:'7627068418029554995',title:'46126年大模型春招模拟面试：多Agent之间是怎么协作的 #Agent #大模型 #大模型面试 #面试技巧 #程序员',summary:'嗯 我和你简单寫了熟悉多Agent的协作那你能聊一聊Agent具体是怎么样来协作的吗就本质我理解的多Agent的协作本质是用一座专业化的智能体替代单一模型通过结',url:'https://www.douyin.com/video/7627068418029554995'},
+{id:'7627168048558285425',title:'788让vibecoding 产品变好看的4个工具❗我常用 #vibecoding #AI工具 #AI #AI产品经理 ',summary:'你是不是经常觉得自己做出来的AI 产品 demo 成端的业面特别的丑然后特别的CC位因为给大家分享一下我日常在用的集中优化成端美观度的几个工具让大家参考第一个的',url:'https://www.douyin.com/video/7627168048558285425'},
+{id:'7627482803596384442',title:'1744别再瞎答vibe coding！AI 产品面试高分答案 AI产品经理面试，一被问vibe coding就翻车？ ',summary:'AI產品鏡裡面是90%的人都會在這套體上夜市官問你什麼是Web Coating要是你一開口就說AI就說AI寫代碼做夜面省時間那麼面試關基本上就能夠判定你不懂也沒',url:'https://www.douyin.com/video/7627482803596384442'},
+{id:'7628955177269103923',title:'3327入行AI产品，AI coding考查点都有哪些? #vibecoding #ai #ai产品经理 #转行ai产品',summary:'對於Webcoating AI 產品經理到底要掌握到什麼程度我們今年能看到AI 圈子裡面和明顯的趨勢就是對AI 產品經理要求Webcoating能力最激進的 當',url:'https://www.douyin.com/video/7628955177269103923'},
+{id:'7631049617357999386',title:'58Product-Manager-Skills Product-Manager-Skills',summary:'射体徐 射列3個3個3個3個3個3個3個...',url:'https://www.douyin.com/video/7631049617357999386'},
+{id:'7633447835778003579',title:'378别只会写 PRD！AI 产品新能力 Vibe Coding AI 产品经理不用成为程序员，但一定要懂 Vibe C',summary:'很多AI產品精裡面時都會被問到WipeCoding能力那麼作為AI產品精力我們的WipeCoding能力到底要達到一個什麼樣的程度呢?今天我就來詳細的展開跟大家',url:'https://www.douyin.com/video/7633447835778003579'},
+{id:'7634077115813465354',title:'513多Agent 架构选型：语义路由vs固定规则，大厂标准答案 #Agent #大模型面试 #大模型 #智能体 #ai',summary:'在构建堆一陣的协同架构时因为我分发是一个核心环节你如何评价基于RM的余议路由与基于固定规则的确定性路由在实际复杂场中你又是如何全衡和选行的好的面试关制是一个工程',url:'https://www.douyin.com/video/7634077115813465354'},
+{id:'7638946971037879571',title:'2775美团二面问 Memory，别再答虚了 Agent Memory 面试别只会说长期记忆和短期记忆！这期拆解美团 A',summary:'美某團這場AZNM2面專門挑那種你以為懂了 其實沒做過的點來問Mamory這類體最容易達虛你說長期記憶 短期記憶面試光下一句就會問怎麼寫入 怎麼去重 衝突了誰生',url:'https://www.douyin.com/video/7638946971037879571'},
+{id:'7639302834722196751',title:'3109字节 Agent 二面，后半场才是真拷打 字节 AI Agent 实习二面别只背概念！这期拆解字节 Agent ',summary:'一起來看看自己的AI震盪實習二面面經看看你能打上來幾刀這套體整體難度偏難但是前面是基礎後面才是真正區分水平的地方我是小哲點贊收藏家關注我們馬上開始第一道題項目被',url:'https://www.douyin.com/video/7639302834722196751'},
+{id:'7639731341004737819',title:'1444阿里 Agent 解决方案，落地能力才是重点 阿里 AI Agent 解决方案一面不要只背框架！这期拆解阿里 A',summary:'一起來看看阿姆里的AI agent解決方案面對,看看你能達上來的幾道這套體整體難度偏難,但是核心不是被概念,而是能不能講清楚落地方案我是小哲,點贊收藏家關注,我',url:'https://www.douyin.com/video/7639731341004737819'},
+{id:'7641553317671324971',title:'66一个很抽象，但是能让你6周吃透AI产品经理的方法～ #ai产品经理 #ai产品经理面试 #大模型 #产品经理 #人工',summary:'一朵粉恶心,让是能让你六周,吃透AI产品经理的方法说句实在的,只要你不是年纪偏大,且有足够的经历也不是三天打余两天帅王六周时间,真够你把AI产品经理导明白变成能',url:'https://www.douyin.com/video/7641553317671324971'},
+{id:'7645625280037014803',title:'83美团Agent面经：8道MCP考题解析 分享一套美某团的Agent面经，重点解析8道关于MCP的核心考题。视频详细梳',summary:'一起来看看这套美墨团的Agent面经看看你能达上来几道这套题整体难度中等但是最后一题很多人会达得很虚我是小哲点赞收藏家关注我们马上开始第一道题什么是mcp它的核',url:'https://www.douyin.com/video/7645625280037014803'}]
+};
+
+const CAT_INFO = {
+  'ai-programming': { name: 'AI 编程', emoji: '🧑‍💻', badge: 'badge-ai-prog' },
+  'ai-pm-career': { name: 'AI 产品与职业', emoji: '📊', badge: 'badge-ai-pm' }
+};
+
+// ── 展开/折叠分类 ──
+let activeCard = null;
+let activePanel = null;
+
+function toggleCategory(card) {
+  const cat = card.dataset.cat;
+  const panelsContainer = document.getElementById('lessonPanels');
+
+  // 如果点击的是当前已展开的
+  if (activeCard === card) {
+    card.classList.remove('active');
+    activePanel.classList.remove('open');
+    setTimeout(() => activePanel.remove(), 400);
+    activeCard = null;
+    activePanel = null;
+    return;
+  }
+
+  // 关闭旧的
+  if (activeCard) {
+    activeCard.classList.remove('active');
+    const old = activePanel;
+    old.classList.remove('open');
+    setTimeout(() => old.remove(), 400);
+  }
+
+  // 打开新的
+  card.classList.add('active');
+  activeCard = card;
+
+  const panel = buildPanel(cat);
+  // 插入到卡片网格之后
+  panelsContainer.innerHTML = '';
+  panelsContainer.appendChild(panel);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => panel.classList.add('open'));
+  });
+  activePanel = panel;
+}
+
+function buildPanel(cat) {
+  const items = LESSONS[cat] || [];
+  const panel = document.createElement('div');
+  panel.className = 'lesson-panel';
+  panel.innerHTML = items.map((item, i) => `
+    <a class="lesson-item" href="${item.url}" target="_blank" rel="noopener">
+      <div class="lesson-num">${i + 1}</div>
+      <div class="lesson-info">
+        <div class="lesson-title">${escHtml(item.title)}</div>
+        ${item.summary ? `<div class="lesson-summary">${escHtml(item.summary)}</div>` : ''}
+      </div>
+      <span class="lesson-link-icon">↗</span>
+    </a>
+  `).join('');
+  return panel;
+}
+
+function showComingSoon(card) {
+  // 轻微抖动动画
+  card.style.transform = 'translateX(-4px)';
+  setTimeout(() => card.style.transform = 'translateX(4px)', 80);
+  setTimeout(() => card.style.transform = 'translateX(0)', 160);
+}
+
+// ── 搜索 ──
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function highlight(text, query) {
+  if (!query) return escHtml(text);
+  const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+  return escHtml(text).replace(re, '<mark style="background:rgba(99,102,241,0.3);color:#c7d2fe;border-radius:2px;">$1</mark>');
+}
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim();
+  if (!q) {
+    searchResults.classList.remove('visible');
+    searchResults.innerHTML = '';
+    return;
+  }
+
+  const results = [];
+  for (const [cat, items] of Object.entries(LESSONS)) {
+    for (const item of items) {
+      if (item.title.toLowerCase().includes(q.toLowerCase()) ||
+          item.summary.toLowerCase().includes(q.toLowerCase())) {
+        results.push({ ...item, cat });
+      }
+    }
+  }
+
+  if (results.length === 0) {
+    searchResults.innerHTML = '<div class="no-results">😔 没有找到相关教案，换个关键词试试？</div>';
+  } else {
+    const info = CAT_INFO;
+    searchResults.innerHTML = `
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">找到 ${results.length} 个结果</div>
+      ${results.map(r => `
+        <a class="search-result-item" href="${r.url}" target="_blank" rel="noopener">
+          <span class="result-cat-badge ${info[r.cat]?.badge || ''}">${info[r.cat]?.emoji || ''} ${info[r.cat]?.name || r.cat}</span>
+          <div class="lesson-info">
+            <div class="lesson-title" style="white-space:normal">${highlight(r.title, q)}</div>
+            ${r.summary ? `<div class="lesson-summary" style="white-space:normal">${highlight(r.summary, q)}</div>` : ''}
+          </div>
+          <span class="lesson-link-icon" style="opacity:1">↗</span>
+        </a>
+      `).join('')}
+    `;
+  }
+  searchResults.classList.add('visible');
+});
+
+// 数字滚动动画
+function animateNum(el, target) {
+  let start = 0;
+  const dur = 1200;
+  const step = (ts) => {
+    if (!start) start = ts;
+    const progress = Math.min((ts - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(ease * target);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  };
+  requestAnimationFrame(step);
+}
+
+// 页面加载后触发数字动画
+window.addEventListener('load', () => {
+  document.querySelectorAll('.stat-num').forEach(el => {
+    const val = parseInt(el.textContent);
+    if (!isNaN(val)) animateNum(el, val);
+  });
+});
+</script>
+</body>
+</html>
