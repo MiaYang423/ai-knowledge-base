@@ -11,11 +11,9 @@ repo_url: https://github.com/MiaYang423/ai-knowledge-base
 
 nav:
   - 首页: index.md
-  - Agent 与多智能体: agent-multi-agent/index.md
-  - RAG 与知识库: rag-knowledge/index.md
-  - VibeCoding: vibecoding/index.md
-  - AI 工具链: tool-chain/index.md
-  - AI 编程: ai-programming/index.md
-  - OpenClaw: openclaw/index.md
-  - AI 产品与职业: ai-pm-career/index.md
-  - AI 设计: ai-design/index.md
+  - 🤖 Agent 与多智能体: agent-multi-agent/index.md
+  - 🧠 大模型与原理: llm-fundamentals/index.md
+  - 💻 VibeCoding & AI编程: vibecoding/index.md
+  - 🔮 Claude / Cursor 实战: claude-cursor/index.md
+  - 📚 RAG 与知识库: rag-knowledge/index.md
+  - 📊 AI 产品与职业: ai-pm-career/index.md

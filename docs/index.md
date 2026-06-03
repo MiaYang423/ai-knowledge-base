@@ -1,52 +1,53 @@
-# 🤖 AI 学习知识库
+# 🧠 AI 学习知识库
 
-> 基于精选抖音收藏视频整理的结构化教案，覆盖 AI 核心技术栈 | 当前共 **132** 篇教案
+> 基于抖音精选视频整理的 AI 学习教案，由小A 自动生成
 
----
-
-## 📚 知识分类
-
-| 分类 | 主题 | 教案数 |
-|------|------|--------|
-| 🤖 [Agent 与多智能体](agent-multi-agent/index.md) | Multi-Agent 架构、MCP 协议、工具调用 | 持续更新 |
-| 🔍 [RAG 与知识库](rag-knowledge/index.md) | 向量检索、知识图谱、LLM Wiki | 持续更新 |
-| ⚡ [VibeCoding](vibecoding/index.md) | AI 辅助编程、氛围编程实战 | 持续更新 |
-| 🔧 [AI 工具链](tool-chain/index.md) | Skills、Workflow、自动化 | 持续更新 |
-| 💻 [AI 编程](ai-programming/index.md) | OpenCode、Codex、AI 开发实战 | 114 篇 |
-| 🦞 [OpenClaw](openclaw/index.md) | OpenClaw 使用技巧、Skill 开发 | 持续更新 |
-| 📊 [AI 产品与职业](ai-pm-career/index.md) | AI PM 方法论、面试、职业路径 | 18 篇 |
-| 🎨 [AI 设计](ai-design/index.md) | AI UI 设计、Figma、视觉生成 | 持续更新 |
+**总教案数：132 篇 | 分类：6 个 | 最后更新：2026-06-03**
 
 ---
 
-## 🔄 更新机制
+## 📂 知识分类
 
-本知识库由 **小A（OpenClaw AI）** 自动维护：
+### 🤖 [Agent 与多智能体](agent-multi-agent/index.md)
+> Agent 设计、MCP、多智能体协作、长期记忆机制
 
-- 📥 每周一从抖音收藏夹抓取新视频
-- 🎙️ Whisper 本地转录，保护隐私
-- 🧠 AI 分析生成结构化教案
-- 🚀 自动推送到本站
+**22 篇教案** · [查看全部 →](agent-multi-agent/index.md)
 
 ---
 
-## 📈 知识图谱
+### 🧠 [大模型与原理](llm-fundamentals/index.md)
+> LLM 原理、统计推断、模型选型、Prompt 工程
 
-核心概念关系：
-
-```
-Agent
-├── MCP 协议 → 工具标准化
-├── Multi-Agent → 协作架构
-└── RAG → 知识增强
-    ├── 向量数据库
-    └── LLM Wiki（新方向）
-
-VibeCoding
-├── AI 编程助手
-└── 全链路自动化
-```
+**8 篇教案** · [查看全部 →](llm-fundamentals/index.md)
 
 ---
 
-*最后更新：2026-06-03 by 小A*
+### 💻 [VibeCoding & AI编程](vibecoding/index.md)
+> AI 辅助编程、自动化开发、全栈实战
+
+**61 篇教案** · [查看全部 →](vibecoding/index.md)
+
+---
+
+### 🔮 [Claude / Cursor 实战](claude-cursor/index.md)
+> Claude Skill、Cursor、OpenCode 深度使用
+
+**20 篇教案** · [查看全部 →](claude-cursor/index.md)
+
+---
+
+### 📚 [RAG 与知识库](rag-knowledge/index.md)
+> 向量检索、知识库搭建、第二大脑
+
+**9 篇教案** · [查看全部 →](rag-knowledge/index.md)
+
+---
+
+### 📊 [AI 产品与职业](ai-pm-career/index.md)
+> AI 产品经理、面试、求职、职业规划
+
+**12 篇教案** · [查看全部 →](ai-pm-career/index.md)
+
+---
+
+*知识库由小A 自动维护，每周更新 · [GitHub](https://github.com/MiaYang423/ai-knowledge-base)*
