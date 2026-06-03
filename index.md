@@ -1,6 +1,6 @@
 # 🤖 AI 学习知识库
 
-> 基于 174 个精选抖音收藏视频整理的结构化教案，覆盖 AI 核心技术栈
+> 基于精选抖音收藏视频整理的结构化教案，覆盖 AI 核心技术栈 | 当前共 **132** 篇教案
 
 ---
 
@@ -12,9 +12,9 @@
 | 🔍 [RAG 与知识库](rag-knowledge/index.md) | 向量检索、知识图谱、LLM Wiki | 持续更新 |
 | ⚡ [VibeCoding](vibecoding/index.md) | AI 辅助编程、氛围编程实战 | 持续更新 |
 | 🔧 [AI 工具链](tool-chain/index.md) | Skills、Workflow、自动化 | 持续更新 |
-| 💻 [AI 编程](ai-programming/index.md) | OpenCode、Codex、AI 开发实战 | 持续更新 |
+| 💻 [AI 编程](ai-programming/index.md) | OpenCode、Codex、AI 开发实战 | 114 篇 |
 | 🦞 [OpenClaw](openclaw/index.md) | OpenClaw 使用技巧、Skill 开发 | 持续更新 |
-| 📊 [AI 产品与职业](ai-pm-career/index.md) | AI PM 方法论、面试、职业路径 | 持续更新 |
+| 📊 [AI 产品与职业](ai-pm-career/index.md) | AI PM 方法论、面试、职业路径 | 18 篇 |
 | 🎨 [AI 设计](ai-design/index.md) | AI UI 设计、Figma、视觉生成 | 持续更新 |
 
 ---
@@ -49,4 +49,4 @@ VibeCoding
 
 ---
 
-*最后更新：自动生成 by 小A*
+*最后更新：2026-06-03 by 小A*
